@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://panzoid.com/legacy/gen2/clipmaker.html?c=369816 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./publishertag.prebid.117.js"></script>
+    <script async="" src="./wrap.js"></script><script src="./rules-p-UeXruRVtZz7w6.js" async=""></script><script async="" src="./apstag.js"></script><script src="./184310-82987131453484.js"></script><script src="./gallery.js"></script><script>window.confiant = window.confiant || {};
+        window.confiant.prebidNameSpace='fsprebid';
+        window.confiant.callback = function(blockingType, blockingId, isBlocked, wrapperId, tagId, impressionData) {
+        postMessage({
+          'message': 'CONFIANT_BLOCK',
+          'prebid': impressionData.prebid,
+          'dfp': impressionData.dfp,
+        })};</script><script src="./pandg-sdk.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <link rel="stylesheet" href="./pz.all-8.css">
+    <link rel="stylesheet" href="./css">
+
+    <script async="" src="./pubfig.min.js"></script><script src="./three.r83.min.js"></script>
+    <script src="./jquery.min.js"></script>
+
+    <script>
+      var PZ = {};
+      PZ.apiOrigin = "https://api.panzoid.com";
+      PZ.blobOrigin = "https://blob.panzoid.com";
+      PZ.account =
+      {
+        //currentUser: undefined,
+        //csrf: undefined,
+        updatePromise: null
+      };
+
+      PZ.account.getCurrent = async function ()
+      {
+        if (typeof this.currentUser === "undefined")
+        {
+          if (!this.updatePromise)
+          {
+            this.updatePromise = PZ.account.update();
+          }
+
+          await this.updatePromise;
+        }
+
+        return this.currentUser;
+      };
+
+      PZ.account.update = async function ()
+      {
+        try
+        {
+          var response = await PZ.api("/users/me", "get");
+          if (response.status !== 200)
+          {
+            PZ.account.currentUser = null;
+          }
+          else
+          {
+            PZ.account.csrf = response.headers.get("X-CSRF-Token");
+            var json = await response.json();
+            PZ.account.currentUser = json;
+          }
+        }
+        catch (e)
+        {
+          PZ.account.currentUser = null;
+        }
+      };
+
+      PZ.api = async function (url, op, body)
+      {
+        url = PZ.apiOrigin + url;
+
+        if (op !== "get" && op !== "head")
+        {
+          var headers = new Headers();
+          var me = await PZ.account.getCurrent();
+          headers.append("x-csrf-token", PZ.account.csrf);
+
+          if (body instanceof FormData === false)
+          {
+            headers.append("Content-Type", "application/json");
+            body = JSON.stringify(body);
+          }
+        }
+
+        var params =
+        {
+          method: op,
+          headers: headers,
+          cache: 'default',
+          credentials: 'include',
+          body: body
+        };
+        return fetch(url, params);
+      };
+
+      PZ.ui = PZ.ui || {};
+      PZ.ui.ads = {};
+
+      PZ.ui.ads.init = async function ()
+      {
+        window.freestar = window.freestar || {};
+        freestar.hitTime = Date.now();
+        freestar.queue = freestar.queue || [];
+        freestar.config = freestar.config || {};
+        freestar.debug = window.location.search.indexOf('fsdebug') === -1 ? false : true;
+
+        this.adsReady = new Promise(function(resolve, reject)
+        {
+          freestar.initCallback = function ()
+          {
+            PZ.ui.ads.loaded = true;
+            resolve();
+          };
+        });
+
+        // Tag IDs set here, must match Tags served in the Body for proper setup
+        freestar.config.enabled_slots = [
+          "Panzoid_creationlist_970x90_728x90_468x60_320x50_300x75",
+          "Panzoid_discussionpost_728x90_468x60_320x50_300x75",
+          "Panzoid_tool_970x90_728x90_468x60_320x50_300x75",
+          "Panzoid_home_970x90_728x90_468x60_320x50",
+          "Panzoid_creationpost_336x280_320x50_300x250_300x100_250x250_200x200_180x150"
+        ];
+
+        let me = await PZ.account.getCurrent();
+        if ((me && me.hasSubscription))
+        {
+          return;
+        }
+
+        !function(a,b){var c=b.getElementsByTagName("script")[0],d=b.createElement("script"),e="https://a.pub.network/Panzoid-com";e+=freestar.debug?"/qa/pubfig.min.js":"/pubfig.min.js",d.async=!0,d.src=e,c.parentNode.insertBefore(d,c)}(window,document);
+      };
+
+      PZ.ui.ads.show = async function (unit, elId)
+      {
+        await PZ.ui.ads.adsReady;
+
+        if (!elId) elId = unit;
+
+        // freestar.deleteAdSlots();
+
+        freestar.newAdSlots(
+          [{
+            placementName: unit,
+            slotId: elId
+          }]
+        );
+      };
+    </script>
+<script src="./beacon.js" data-owner="freestar" async="" type="text/javascript"></script><script src="./pubfig.engine.4.28.0.b30d4cee912dafd5fb0f24c89051a7989f2747d1.js" data-owner="freestar" async="" type="text/javascript"></script><style data-owner="freestar">.fs-sticky-footer {
+    display: block;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    width: 100vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    z-index: 2147483647;
+}
+
+.fs-sticky-slot-element > div > iframe {
+    margin: 0 !important;
+}
+
+.fs-sticky-parent {
+    z-index: 2147483647;
+    bottom: 0;
+    padding-top: 2px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.fs-sticky-slot-element {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.fs-overlay {
+    width: 0%;
+    height: 100%;
+    position: fixed;
+    z-index: 5000000;
+    top: 0;
+    left: 0;
+    background: #888888;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.canvas-boxes {
+    width: 100px;
+    height: 100px
+}
+
+.captcha-styles {
+    text-align: center;
+    width: 100%
+}
+
+.fs-dynamic {
+    text-align: center;
+    /*margin: 10px auto 10px auto;*/
+    clear: both;
+}
+
+.fs-x-btn {
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.fs-l-btn {
+    display: block;
+    position: absolute;
+    top: 14px;
+    left: 5px;
+    pointer-events: none;
+    border-radius: 2px;
+    width: 20px;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.fs-r-btn {
+    display: block;
+    pointer-events: none;
+    border-radius: 2px;
+    width: 20px;
+    height: 2px;
+    background-color: #FFFFFF;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.fs-btn-wrapper {
+    display: inline-block;
+}
+
+.fs-pdu-x {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-transition: all .3s ease-in-out;
+    background-color: #FFFFFF;
+    background-image: url(data: image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTBweCIgaGVpZ2h0PSIxMHB4IiB2aWV3Qm94PSIwIDAgMTAgMTAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgIDxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImZzQ2xvc2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMDU1LjAwMDAwMCwgLTcwLjAwMDAwMCkiIGZpbGw9IiM4ODg4ODgiPiAgICAgICAgICAgIDxnIGlkPSJjYW5jZWwtaWNvbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA1NS4wMDAwMDAsIDcwLjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNOS40ODU5Mzc1LDAuNjE4NDM3NSBDOS4yNDI1LDAuMzc0Njg3NSA4Ljg0NzUsMC4zNzQ2ODc1IDguNjA0Mzc1LDAuNjE4NDM3NSBMNC45ODEyNSw0LjI0MDYyNSBMMS4zNTkwNjI1LDAuNjE4NDM3NSBDMS4xMTU2MjUsMC4zNzQ2ODc1IDAuNzIwMzEyNSwwLjM3NDY4NzUgMC40NzcxODc1LDAuNjE4NDM3NSBDMC4yMzQwNjI1LDAuODYxODc1IDAuMjM0MDYyNSwxLjI1Njg3NSAwLjQ3NzE4NzUsMS41MDA2MjUgTDQuMDcwNjI1LDUuMDk0Mzc1IEwwLjQ3OTM3NSw4LjY4NDY4NzUgQzAuMjM2MjUsOC45MjgxMjUgMC4yMzYyNSw5LjMyMzEyNSAwLjQ3OTM3NSw5LjU2NjU2MjUgQzAuNjAxODc1LDkuNjg4NzUgMC43NjE1NjI1LDkuNzQ5Njg3NSAwLjkyMTI1LDkuNzQ5Njg3NSBDMS4wODA5Mzc1LDkuNzQ5Njg3NSAxLjI0LDkuNjg4NzUgMS4zNjIxODc1LDkuNTY2NTYyNSBMNC45ODEyNSw1Ljk0ODEyNSBMOC42MDA5Mzc1LDkuNTY2NTYyNSBDOC43MjI4MTI1LDkuNjg4NzUgOC44ODE4NzUsOS43NDk2ODc1IDkuMDQxNTYyNSw5Ljc0OTY4NzUgQzkuMjAxNTYyNSw5Ljc0OTY4NzUgOS4zNjE1NjI1LDkuNjg4NzUgOS40ODI4MTI1LDkuNTY2NTYyNSBDOS43MjYyNSw5LjMyMzEyNSA5LjcyNjI1LDguOTI4MTI1IDkuNDgyODEyNSw4LjY4NDY4NzUgTDUuODkyNSw1LjA5NDY4NzUgTDkuNDg1OTM3NSwxLjUwMDkzNzUgQzkuNzI5Njg3NSwxLjI1Njg3NSA5LjcyOTY4NzUsMC44NjIxODc1IDkuNDg1OTM3NSwwLjYxODQzNzUgWiIgaWQ9IlBhdGgiPjwvcGF0aD4gICAgICAgICAgICA8L2c+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75);
+            box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75);
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    outline: none;
+    padding: 0px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    transition: all .3s ease-in-out;
+    width: 20px;
+}
+
+.fs-close-button {
+    all: unset;
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+    -webkit-transition: all .3s ease-in-out !important;
+    appearance: none !important;
+    background-color: #FFFFFF !important;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTBweCIgaGVpZ2h0PSIxMHB4IiB2aWV3Qm94PSIwIDAgMTAgMTAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgIDxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9ImZzQ2xvc2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMDU1LjAwMDAwMCwgLTcwLjAwMDAwMCkiIGZpbGw9IiM4ODg4ODgiPiAgICAgICAgICAgIDxnIGlkPSJjYW5jZWwtaWNvbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA1NS4wMDAwMDAsIDcwLjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNOS40ODU5Mzc1LDAuNjE4NDM3NSBDOS4yNDI1LDAuMzc0Njg3NSA4Ljg0NzUsMC4zNzQ2ODc1IDguNjA0Mzc1LDAuNjE4NDM3NSBMNC45ODEyNSw0LjI0MDYyNSBMMS4zNTkwNjI1LDAuNjE4NDM3NSBDMS4xMTU2MjUsMC4zNzQ2ODc1IDAuNzIwMzEyNSwwLjM3NDY4NzUgMC40NzcxODc1LDAuNjE4NDM3NSBDMC4yMzQwNjI1LDAuODYxODc1IDAuMjM0MDYyNSwxLjI1Njg3NSAwLjQ3NzE4NzUsMS41MDA2MjUgTDQuMDcwNjI1LDUuMDk0Mzc1IEwwLjQ3OTM3NSw4LjY4NDY4NzUgQzAuMjM2MjUsOC45MjgxMjUgMC4yMzYyNSw5LjMyMzEyNSAwLjQ3OTM3NSw5LjU2NjU2MjUgQzAuNjAxODc1LDkuNjg4NzUgMC43NjE1NjI1LDkuNzQ5Njg3NSAwLjkyMTI1LDkuNzQ5Njg3NSBDMS4wODA5Mzc1LDkuNzQ5Njg3NSAxLjI0LDkuNjg4NzUgMS4zNjIxODc1LDkuNTY2NTYyNSBMNC45ODEyNSw1Ljk0ODEyNSBMOC42MDA5Mzc1LDkuNTY2NTYyNSBDOC43MjI4MTI1LDkuNjg4NzUgOC44ODE4NzUsOS43NDk2ODc1IDkuMDQxNTYyNSw5Ljc0OTY4NzUgQzkuMjAxNTYyNSw5Ljc0OTY4NzUgOS4zNjE1NjI1LDkuNjg4NzUgOS40ODI4MTI1LDkuNTY2NTYyNSBDOS43MjYyNSw5LjMyMzEyNSA5LjcyNjI1LDguOTI4MTI1IDkuNDgyODEyNSw4LjY4NDY4NzUgTDUuODkyNSw1LjA5NDY4NzUgTDkuNDg1OTM3NSwxLjUwMDkzNzUgQzkuNzI5Njg3NSwxLjI1Njg3NSA5LjcyOTY4NzUsMC44NjIxODc1IDkuNDg1OTM3NSwwLjYxODQzNzUgWiIgaWQ9IlBhdGgiPjwvcGF0aD4gICAgICAgICAgICA8L2c+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=)  !important;
+    background-position: 50% !important;
+    background-repeat: no-repeat !important;
+    border: none !important;
+    border-radius: 50% !important;
+    -webkit-box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75) !important;
+            box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75) !important;
+    -webkit-box-sizing: border-box !important;
+            box-sizing: border-box !important;
+    cursor: pointer !important;
+    display: block !important;
+    height: 20px !important;
+    outline: none !important;
+    padding: 0px !important;
+    position: absolute !important;
+    right: 25px !important;
+    top: 25px !important;
+    transition: all .3s ease-in-out !important;
+    width: 20px !important;
+}
+
+.fs-close-button:hover {
+    -webkit-box-shadow: 0 0 0 1px #888888, 0 0 0 8px rgba(247, 247, 247, .75);
+            box-shadow: 0 0 0 1px #888888, 0 0 0 8px rgba(247, 247, 247, .75);
+}
+
+.fs-close-button-pushdown {
+    right: 12px !important;
+    top: 12px !important;
+}
+
+.fs-close-button-zerg-interstitial {
+    right: -5px !important;
+    top: -5px !important;
+    -webkit-transform: scale(1.25);
+            transform: scale(1.25);
+}
+
+.fs-close-button-sticky {
+    top: 10px !important;
+}
+
+@media screen and (max-width: 820px) {
+    .fs-close-button-sticky {
+        top: -28px !important;
+        right: 8px !important;
+    }
+    .fs-close-button-pushdown {
+        top: 0 !important;
+        right: 0 !important;
+    }
+    .sticky-reportThisAd button:after {
+        top: -40px !important;
+        right: 10px !important;
+    }
+    .pushdown-reportThisAd button:after {
+        top: 30px !important;
+        right: -38px !important;
+    }
+}
+
+.fs-pushdown {
+    background-color: rgba(247, 247, 247, .9);
+    top: 0;
+    /*left: 0 !important;*/
+    text-align: center;
+    z-index: 2147483647;
+    /*position: inherit !important;*/
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+/*    height: 100%;
+    max-height: 250px;*/
+}
+
+.fs-pushdown-sticky {
+    position: sticky !important;
+    background-color: rgba(247, 247, 247, .9);
+    top: 0;
+    left: 0 !important;
+    text-align: center;
+    z-index: 2147483647;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.freestar_report_button {
+    border: none;
+    font-family: sans-serif;
+    font-size: 9px;
+    cursor: pointer;
+    color: #646464;
+}
+
+._fsBranding {
+    position: relative;
+}
+
+._fsBranding a {
+    max-height: none;
+    max-height: initial;
+    background-color: transparent;
+    background-color: initial;
+    margin-bottom: 0;
+    margin-bottom: initial;
+    border: initial;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-transition: all .3s ease-in-out;
+    appearance: none;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAMAAABYi/ZGAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAASlQTFRFAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAAAAAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMKIAMOIAMOIA76FDKt7BLyEAMOIAMOIAMOIAMOIAMOIC659F5RvAMOIAMOIAMOIAsCGFJtzAMOIAMOIAMOIAMOIAMOIA7yEAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIXQtSBAAAAGN0Uk5TZ/P/+5zy67G59Nb+iAUAGtq9AcgjzsYfTpoHk+1+IgLQ+B0RjvfwluI6A1fE/M9GvPo0GZf5oh3c/917amAT2tzAtizavReR9dtQvWHu0ubCG5JZMem/DmvhFP1iGNfqyotPvfuArgAAANFJREFUeJxdztdWwkAQgOFlAyIEhypShNB772iUEnqTXgWF938IQ0g8ZP+bOfPNzSCkwPIoJVI9qPkeNcK4psVIS+ueAPQGI9wymSlkecbWlzuzYTsChxO/utySMR6vDwH4A8FQOCJalFKbeINYPJGkU2mhTDYHSLjmC0XplRKIBuVKFb+9syz78flv+lq9kW1yt0WyVrvT7fUHzL0ZhuAYjSeczPhfuK/pjLDYvLgAwpar9YY0F70Fwtw7z5403eEbZHY8rX5+/XJjzgfFRST4A0TXI5cUTyEqAAAAAElFTkSuQmCC);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 50%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 30px;
+    outline: none;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    transition: all .3s ease-in-out;
+    width: 30px;
+    min-width: 0;
+    min-width: initial;
+}
+
+@media screen and (max-width: 820px) {
+    ._fsBranding a {
+        top: -30px;
+        background-color: rgba(247, 247, 247, .75);
+        background-size: 58%;
+    }
+}
+
+.fs-report-ad-img {
+    width: 60%;
+    margin: 9px;
+}
+
+#freestar_overlay {
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+
+#freestar_overlay_flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#freestar_report_ad {
+    width: 300px;
+    background: rgba(255, 255, 255, 1)!important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+#freestar_report_ad::before {
+    width: 300px;
+    background: rgba(255, 255, 255, 1)!important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+#freestar_report_ad_text_center {
+    text-align: center;
+}
+
+.freestar_close_btn {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 32px;
+    height: 32px;
+    background-color: rgb(255, 255, 255);
+}
+
+.freestar_close_btn:before {
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+
+.freestar_close_btn:after {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+}
+
+.freestar_report_btn {
+    background: #00C389!important;
+    cursor: pointer!important;
+    border: none!important;
+    border-radius: 30px!important;
+    color: #fff!important;
+    padding: 10px 20px!important;
+    font-size: 12px!important;
+    font-weight: 500!important;
+    margin: 20px;
+    outline: 0;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.freestar_report_btn:focus {
+    outline: 0;
+}
+
+#freestar_report_div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.freestar_report_sub_header {
+    color: #00C389 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin: 23px;
+}
+
+.fs_report_container span {
+    margin-left: 10px;
+}
+
+.fs_checkbox {
+    cursor: pointer;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.fs_checkbox>span {
+    color: #34495E;
+    margin-left: 5px;
+    /*padding: 0.5rem 0.25rem;*/
+}
+
+.fs_checkbox>input {
+    height: 15px;
+    width: 15px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    border: 1px solid #34495E;
+    border-radius: 4px;
+    outline: none;
+    -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+    background-color: #41B883;
+    cursor: pointer;
+    margin-bottom: 3px;
+}
+
+.fs_checkbox>input:checked {
+    border: 1px solid #41B883;
+    background-color: #34495E;
+}
+
+.fs_checkbox>input:checked+span::before {
+    display: block;
+    text-align: center;
+    color: #41B883;
+    /*position: absolute;*/
+    /*left: 0.7rem;*/
+    /*top: 0.2rem;*/
+}
+
+.fs_checkbox>input:active {
+    border: 2px solid #34495E;
+}
+
+.fs-new-close-container {
+    top: calc(50% - 250px);
+    right: calc(50% - 250px);
+    position: absolute;
+}
+
+@media screen and (max-width: 820px) {
+    .fs-new-close-container {
+        top: 15%;
+        right: calc(50% - 131px);
+    }
+}
+
+.fs-new-close {
+    margin-left: 30%;
+    margin-bottom: 5%;
+    cursor: pointer;
+}
+
+.fs-new-close:hover {
+    opacity: 1;
+}
+
+.fs-new-close:before, .fs-new-close:after {
+    position: absolute;
+    /*left: 15px;*/
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: rgb(255, 255, 255);
+}
+
+.fs-new-close:before {
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+
+.fs-new-close:after {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+}
+
+.__fs-ancillary {
+    --childHeight: 16px;
+    width: 100%;
+    width: var(--childWidth);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    margin: 0 auto;
+    height: var(--childHeight);
+    visibility: hidden;
+    -webkit-box-ordinal-group: 6;
+        -ms-flex-order: 5;
+            order: 5;
+}
+
+.fs-sticky-wrapper .__fs-ancillary {
+    display: none !important;
+}
+
+.__fs-report-this-ad {
+    line-height: 0px;
+}
+
+.__fs-branding {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    /*width: var(--childHeight);*/
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+}
+
+.__fs-branding>a {
+    width: 100%;
+    max-width: var(--childWidth);
+    height: var(--childHeight);
+    display: block;
+}
+
+.__fs-branding>a>img {
+    max-height: none;
+    max-height: initial;
+    background-color: transparent;
+    background-color: initial;
+    background-image: none;
+    background-image: initial;
+    border: medium none currentColor;
+    border: initial;
+    background-repeat: repeat;
+    background-repeat: initial;
+    background-position: 0 0;
+    background-position: initial;
+    height: calc(var(--childHeight) - 2px) !important;
+    margin: 5px 0;
+    display: block;
+    float: left;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    width: auto !important;
+    width: initial !important;
+}
+
+.fs-sticky-wrapper .__fs-branding {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.fs-sticky-wrapper .__fs-branding>a {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.fs-sticky-wrapper .__fs-branding>a>img {
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 1;
+}
+
+@media screen and (max-width: 820px) {
+    .fs-sticky-wrapper .__fs-branding {
+        top: -30px;
+        background-color: rgba(247, 247, 247, .75);
+        background-size: 58%;
+    }
+    .fs-sticky-wrapper .__fs-branding>a>img {
+        width: 90%;
+        height: 90%;
+    }
+    .fs-sticky-wrapper {
+        min-height: 50px;
+    }
+}
+
+.fs-interstitial-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    z-index: 2147483647;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    visibility: hidden;
+}
+
+.fs-interstitial-container {
+    width: 1000px;
+    height: 650px;
+    background: rgb(255, 255, 255);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+}
+
+.fs-interstitial-ad-space {
+    width: 970px;
+    height: 250px;
+    -ms-flex-item-align: center;
+        align-self: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    min-height: 250px;
+    overflow: hidden;
+}
+
+.fs-interstitial-content {
+    width: 100%;
+    height: 250px;
+    -ms-flex-item-align: center;
+        align-self: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+}
+
+.fs-interstitial-message-container {
+    width: 100%;
+    height: 100px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -ms-flex-item-align: center;
+        align-self: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.fs-interstitial-message {
+    color: #17181f;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 40px;
+    -ms-flex-item-align: center;
+        align-self: center;
+    padding: 10px;
+}
+
+.fs-interstitial-close-container {
+    width: 1000px;
+    height: 50px;
+    position: relative;
+}
+
+.fs-interstitial-branding {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAMAAABYi/ZGAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAASlQTFRFAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAAAAAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMKIAMOIAMOIA76FDKt7BLyEAMOIAMOIAMOIAMOIAMOIC659F5RvAMOIAMOIAMOIAsCGFJtzAMOIAMOIAMOIAMOIAMOIA7yEAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIAMOIXQtSBAAAAGN0Uk5TZ/P/+5zy67G59Nb+iAUAGtq9AcgjzsYfTpoHk+1+IgLQ+B0RjvfwluI6A1fE/M9GvPo0GZf5oh3c/917amAT2tzAtizavReR9dtQvWHu0ubCG5JZMem/DmvhFP1iGNfqyotPvfuArgAAANFJREFUeJxdztdWwkAQgOFlAyIEhypShNB772iUEnqTXgWF938IQ0g8ZP+bOfPNzSCkwPIoJVI9qPkeNcK4psVIS+ueAPQGI9wymSlkecbWlzuzYTsChxO/utySMR6vDwH4A8FQOCJalFKbeINYPJGkU2mhTDYHSLjmC0XplRKIBuVKFb+9syz78flv+lq9kW1yt0WyVrvT7fUHzL0ZhuAYjSeczPhfuK/pjLDYvLgAwpar9YY0F70Fwtw7z5403eEbZHY8rX5+/XJjzgfFRST4A0TXI5cUTyEqAAAAAElFTkSuQmCC);
+    background-position: 100%;
+    background-repeat: no-repeat;
+    height: 30px;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    width: 30px;
+    min-width: 0;
+    min-width: initial;
+    margin-left: 56%;
+}
+
+.fs-interstitial-container .zegrow {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+    -webkit-box-pack: center !important;
+        -ms-flex-pack: center !important;
+            justify-content: center !important;
+}
+
+.fs-interstitial-container .zergentity {
+    width: 237px!important;
+    margin: 0px 8px 0px 5px !important;
+}
+
+.fs-interstitial-container .widget-loaded {
+    -ms-flex-item-align: center !important;
+        align-self: center !important;
+    width: 100% !important;
+    background: rgba(0, 0, 0, 0) !important;
+}
+
+.fs_interstitial_branding_link img {
+    width: 200px;
+    padding-bottom: 16px;
+}
+
+.fs_interstitial_branding_link {
+    -ms-flex-item-align: center !important;
+        align-self: center !important;
+}
+
+#freestar-video-parent, #freestar-video-child {
+    width: 100%;
+    max-width: 100vw !important;
+    overflow: hidden;
+}
+
+.freestar_report_comments {
+    padding-top: 10px;
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+#freestar_report_comment_box_wrapper {
+    width: 100%;
+    height: 90px;
+}
+
+.sticky-reportThisAd button {
+    visibility: hidden;
+    position: relative;
+}
+
+.sticky-reportThisAd button:after {
+    content: "";
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAVUlEQVR4Ae3OsREAEBAFUaEClKIA/SjiSlKUQrhAzAyBH+zObP4CEX3O/HFxVANlNVAVA53/AAIECBAgQIAs7EtSoFVXAzUl0HuAAAESqPi2Lj6RfBMQ53XW4UhrMwAAAABJRU5ErkJggg==);
+    background-size: 18px;
+    visibility: visible;
+    position: absolute;
+    moz-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+         appearance: none;
+    background-color: #FFFFFF;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75);
+            box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75);
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    outline: none;
+    padding: 0px;
+    position: absolute;
+    right: -25px;
+    top: 38px;
+    width: 20px;
+    min-width: 0;
+    min-width: initial;
+}
+
+.sticky-reportThisAd {
+    content: "\127987";
+    cursor: pointer;
+    background: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: none;
+    position: absolute;
+    right: 50px;
+    top: 5px;
+    z-index: 2147483647;
+}
+
+.pushdown-reportThisAd button {
+    visibility: hidden;
+    position: relative;
+}
+
+.pushdown-reportThisAd button:after {
+    content: "";
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAVUlEQVR4Ae3OsREAEBAFUaEClKIA/SjiSlKUQrhAzAyBH+zObP4CEX3O/HFxVANlNVAVA53/AAIECBAgQIAs7EtSoFVXAzUl0HuAAAESqPi2Lj6RfBMQ53XW4UhrMwAAAABJRU5ErkJggg==);
+    background-size: 18px;
+    visibility: visible;
+    position: absolute;
+    moz-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+         appearance: none;
+    background-color: #FFFFFF;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75);
+            box-shadow: 0 0 0 1px #888888, 0 0 0 6px rgba(247, 247, 247, .75);
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    outline: none;
+    padding: 0px;
+    position: absolute;
+    right: -37.5px;
+    top: 35px;
+    width: 20px;
+    min-width: 0;
+    min-width: initial;
+}
+
+.pushdown-reportThisAd {
+    content: "\127987";
+    cursor: pointer;
+    background: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: none;
+    position: absolute;
+    right: 50px;
+    top: 5px;
+    z-index: 2147483647;
+}
+
+.center-ad {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+._wrapper .orp-player-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+}
+</style><script src="./config.js" data-owner="freestar" async="" type="text/javascript"></script><script src="./gpt.js" data-owner="freestar" async="" type="text/javascript"></script><script src="./prebid-analytics-6.19.10.js" data-owner="freestar" async="" type="text/javascript"></script><meta http-equiv="origin-trial" content="AzoawhTRDevLR66Y6MROu167EDncFPBvcKOaQispTo9ouEt5LvcBjnRFqiAByRT+2cDHG1Yj4dXwpLeIhc98/gIAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A6+nc62kbJgC46ypOwRsNW6RkDn2x7tgRh0wp7jb3DtFF7oEhu1hhm4rdZHZ6zXvnKZLlYcBlQUImC4d3kKihAcAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/9La288e7MDEU2ifusFnMg1C2Ij6uoa/Z/ylwJIXSsWfK37oESIPbxbt4IU86OGqDEPnNVruUiMjfKo65H/CQwAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjYxMjk5MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><script src="./pubads_impl_2022072702.js" async=""></script><script src="./quant.js" data-owner="freestar" async="" type="text/javascript"></script><script src="./ats.js"></script><script src="./pubcid.min.js"></script><script src="./id5-api.js"></script><script src="./pubfig.messaging.2.28.0.b30d4cee912dafd5fb0f24c89051a7989f2747d1.js" data-owner="freestar" async="" type="text/javascript"></script></head>
+
+<body data-new-gr-c-s-check-loaded="14.1071.0" data-gr-ext-installed="" style="--fsAncillary:var(--use);">
+    <style>
+        /* scrollbars */
+        
+         ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        
+         ::-webkit-scrollbar-button {
+            display: none;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background-color: #222;
+        }
+        
+         ::-webkit-scrollbar-track-piece {
+            background-color: #222;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background-color: #555;
+            /*border: 2px solid #222;*/
+        }
+
+         ::-webkit-scrollbar-corner {
+            background-color: transparent;
+        }
+    </style>
+
+    <div id="panecontainer">
+        <div id="editorpane" style="right: auto; width: 447px; top: 0px; border-right: 3px solid rgb(17, 17, 17); border-top: 0px;">
+            <div id="controls"><div style="display: none;"><a class="proprow propbutton noselect" tabindex="0"><span>New project</span></a><a class="proprow propbutton noselect" tabindex="0"><span>Load project</span></a><a class="proprow propbutton noselect" tabindex="0"><span>Save project</span></a><a class="proprow propbutton noselect" tabindex="0"><span>Upload to creations</span></a><div><a href="https://panzoid.com/tools/clipmaker?c=562814" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="Xray Intro" data-t="562814" style="width: 330px; height: 186px; margin: 0px;" src="./562814.jpg"></a><a href="https://panzoid.com/tools/clipmaker?c=571387" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="Bubl 3D Logo!" data-t="571387" style="width: 330px; height: 186px; margin: 0px;" src="./571387.jpg"></a><a href="https://panzoid.com/tools/clipmaker?c=571398" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="My intro " data-t="571398" style="width: 330px; height: 186px; margin: 0px;" src="./571398.jpg"></a><a href="https://panzoid.com/tools/clipmaker?c=571378" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="Clipmaker intro" data-t="571378" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=570236" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="O for Bouncing Dount" data-t="570236" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=537743" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="chill neon outro (my new outro)" data-t="537743" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=552722" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="Outro Template." data-t="552722" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=559162" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="[FULL CM2] Tutorial on my youtube channel (at 180 subs i will upload the 2 hour video)" data-t="559162" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=559201" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="Back? | Cool Intro + Sync And Effects | fxiz.exe" data-t="559201" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=556884" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="Rick and morty intro" data-t="556884" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=564053" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="R I D I N G" data-t="564053" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a><a href="https://panzoid.com/tools/clipmaker?c=557101" style="display: block; margin: 20px auto auto; width: 330px; height: 186px; background-color: rgb(34, 34, 34);"><img width="330" height="186" title="CM2[Simple] Chill Intro | Template Free To Use" data-t="557101" style="width: 330px; height: 186px; margin: 0px; visibility: hidden;"></a></div><div class="proprow spacer"></div><a class="proprow propbutton noselect" tabindex="0" href="https://panzoid.com/creations" target="_blank" style="cursor: pointer;"><span>More creations...</span></a></div><div style="display: none;"></div><div style="display: none;"></div><div style="height: 100%; width: 100%;"><a class="proprow propbutton noselect" tabindex="0"><svg style="display:inline-block;margin-right:10px;position:relative;top:2px;fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#add"></use></svg><span>Add Object</span></a><ul class="pz-listbox" style="height: 148.75px;"><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: ALL</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: THE LIEK </span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li class=""><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li><span>Text: don't forget</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li><span>Text: to like </span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: New Group</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li class=""><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: New Group</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: ANY</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: the Green screen </span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: the subscription </span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li group="1" class=""><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: YOUR LOGO and NAME</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li class="pz-listitem-selected"><span>Shape: Circle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li class=""><span>Text: Engineer Codewala</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: SUP</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: New Group</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Text: SUBSCRIBE </span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: New Group</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Text: SUBSCRIBED  </span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: the taps</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: ring 1</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul><li group="1"><a style="width:15px;height:15px;float:left;margin-left:2px;margin-right:7px;visibility:visible"><svg style="fill:#ccc;width:15px;height:15px;pointer-events:none"><use href="pz.icons10.svg#arrow"></use></svg></a><span>Group: ring 2</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li><ul><li><span>Shape: Rectangle</span><a title="delete"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#remove"></use></svg></a><a title="duplicate"><svg style="width:15px;height:15px;fill:#ccc;pointer-events:none;"><use href="pz.icons10.svg#duplicate"></use></svg></a></li></ul></ul></ul></ul><div style="width: 100%; height: 5px; position: absolute; cursor: ns-resize; top: 185px;"></div><div style="overflow-y: auto; position: absolute; inset: 191px 0px 0px;"><div class="proprow proptitle noselect"><span class="proplabel" style="font-size: 18px; font-weight: bold;">Circle</span></div><div class="proprow noselect"><span class="proplabel">Radius</span><div class="propcol"><input class="pzinput pzinput-normal" readonly="" style="visibility: visible;"></div></div><div class="proprow noselect"><span class="proplabel">Detail</span><div class="propcol"><input class="pzinput pzinput-normal" readonly="" style="visibility: visible;"></div></div><div class="proprow spacer"></div><div class="proprow noselect" kf="1"><span class="proplabel" style="border-bottom: 3px solid rgb(134, 45, 45);">Position</span><div class="propcol"><div class="editbox" style="height:32px"><a class="pz-tweens" title="interpolation" style="visibility: hidden;"><svg style="width:35px;height:23px;pointer-events:none"><use href="pz.icons10.svg#interp_0"></use></svg></a><a class="pz-tweens" title="easing" style="visibility: hidden;"><svg style="width:35px;height:23px;pointer-events:none"><use href="pz.icons10.svg#ease_1"></use></svg></a><a style="display: inline-block; margin-top: 5px; margin-left: 10px; vertical-align: top; cursor: pointer; visibility: visible;" title="add keyframe"><svg style="width:17px;height:17px;fill:#ccc;pointer-events:none"><use href="pz.icons10.svg#add"></use></svg></a></div><div class="editbox" style="visibility: visible;"><input class="pzinput pzinput-normal" readonly=""><input class="pzinput pzinput-normal" readonly=""><input class="pzinput pzinput-normal" readonly=""></div></div></div><div class="proprow noselect" kf="1"><span class="proplabel" style="border-bottom: 3px solid rgb(45, 134, 45);">Rotation</span><div class="propcol"><div class="editbox" style="height:32px"><a class="pz-tweens" title="interpolation" style="visibility: hidden;"><svg style="width:35px;height:23px;pointer-events:none"><use href="pz.icons10.svg#interp_0"></use></svg></a><a class="pz-tweens" title="easing" style="visibility: hidden;"><svg style="width:35px;height:23px;pointer-events:none"><use href="pz.icons10.svg#ease_1"></use></svg></a><a style="display: inline-block; margin-top: 5px; margin-left: 10px; vertical-align: top; cursor: pointer; visibility: visible;" title="add keyframe"><svg style="width:17px;height:17px;fill:#ccc;pointer-events:none"><use href="pz.icons10.svg#add"></use></svg></a></div><div class="editbox" style="visibility: visible;"><input class="pzinput pzinput-normal" readonly=""><input class="pzinput pzinput-normal" readonly=""><input class="pzinput pzinput-normal" readonly=""></div></div></div><div class="proprow noselect" kf="1"><span class="proplabel" style="border-bottom: 3px solid rgb(45, 45, 134);">Scale</span><div class="propcol"><div class="editbox" style="height:32px"><a class="pz-tweens" title="interpolation" style="visibility: hidden;"><svg style="width:35px;height:23px;pointer-events:none"><use href="pz.icons10.svg#interp_0"></use></svg></a><a class="pz-tweens" title="easing" style="visibility: hidden;"><svg style="width:35px;height:23px;pointer-events:none"><use href="pz.icons10.svg#ease_1"></use></svg></a><a style="display: inline-block; margin-top: 5px; margin-left: 10px; vertical-align: top; cursor: pointer; visibility: visible;" title="add keyframe"><svg style="width:17px;height:17px;fill:#ccc;pointer-events:none"><use href="pz.icons10.svg#add"></use></svg></a></div><div class="editbox" style="visibility: visible;"><input class="pzinput pzinput-normal" readonly=""><input class="pzinput pzinput-normal" readonly=""><input class="pzinput pzinput-normal" readonly=""></div></div></div><div class="proprow spacer"></div><div class="proprow noselect"><span class="proplabel">Appearance</span><div class="propcol"><select class="pz-inputbox" style="visibility: visible;"><option value="1">single color</option><option value="2">image</option><option value="3">metal</option><option value="4">wood</option><option value="5">brick</option><option value="6">alien</option><option value="7">video</option><option value="8">shockwave [alpha]</option><option value="9">custom</option></select></div></div><div><div class="proprow noselect"><span class="proplabel">Image</span><input type="file" style="height:0px;width:0px;overflow:hidden;" accept="image/*"><div class="propcol"><a style="margin: 3px 0;display: inline-block;cursor: pointer;">select</a></div></div><div class="proprow noselect"><span class="proplabel">Repeat</span><div class="propcol"><div style="text-align: right; visibility: visible;"><div>u <input class="pzinput pzinput-normal" readonly=""></div><div>v <input class="pzinput pzinput-normal" readonly=""></div></div></div></div><div class="proprow noselect"><span class="proplabel">Render side</span><div class="propcol"><select class="pz-inputbox" style="visibility: visible;"><option value="1">front</option><option value="2">back</option><option value="3">both</option></select></div></div></div></div></div><div style="display: none;"></div><div style="display: none;"></div><div style="display: none;"></div><div style="display: none;"></div><div style="display: none;"></div></div>
+            <div id="elevator"><a title="Menu"><svg><use href="pz.icons10.svg#menu"></use></svg></a>
+                <div id="elevatortabs" style="overflow-y: hidden;"><a title="Project" class=""><svg><use href="pz.icons10.svg#templates"></use></svg><span>Project</span></a><a title="Basics" style="visibility: visible;"><svg><use href="pz.icons10.svg#basics"></use></svg><span>Basics</span></a><a title="Scene" style="visibility: visible;"><svg><use href="pz.icons10.svg#scene"></use></svg><span>Scene</span></a><a title="Objects" style="visibility: visible;" class="el-selected"><svg><use href="pz.icons10.svg#objects"></use></svg><span>Objects</span></a><a title="FX" style="visibility: visible;"><svg><use href="pz.icons10.svg#fx"></use></svg><span>FX</span></a><a title="Camera" style="visibility: visible;"><svg><use href="pz.icons10.svg#camera"></use></svg><span>Camera</span></a><a title="Audio + Music" style="visibility: visible;"><svg><use href="pz.icons10.svg#music"></use></svg><span>Audio + Music</span></a><a title="Download" style="visibility: visible;"><svg><use href="pz.icons10.svg#download"></use></svg><span>Download</span></a><a title="About" style="visibility: visible;"><svg><use href="pz.icons10.svg#about"></use></svg><span>About</span></a></div>
+            </div>
+        <div class="disabled noselect" style="display: none;"><span>(pause to edit)</span></div></div>
+
+        <div id="previewpane" style="bottom: 0px; left: 450px;">
+            <canvas id="c_main" height="350" width="622" style="position: absolute; top: 93px; left: 184px;"></canvas>
+            <div id="previewtop">
+                <div style="text-align: center;" id="Panzoid_tool_970x90_728x90_468x60_320x50_300x75" name="Panzoid_tool_970x90_728x90_468x60_320x50_300x75"></div>
+            </div>
+            <div id="previewbottom" style="height: 149px;"><div class="disabled noselect" style="display: none;"></div><div style="width:100%;height:3px;position:relative;top:-3px;cursor:ns-resize;"></div><div style="position:absolute;top:0;bottom:0;right:0;left:200px;overflow:hidden;overflow-x:scroll"><div style="position: absolute; left: 0px; top: 0px; bottom: 0px; transform-origin: left center; background-repeat: repeat; cursor: default; transform: scale(0.15, 1); width: 10650px; background-image: linear-gradient(rgb(102, 102, 102) 50%, rgb(80, 80, 80) 50%); background-size: 10px 91.3333px;"><div style="position: absolute; left: 3075px; top: 0px; bottom: 0px; width: 50px; margin-left: -25px; background-color: rgba(0, 0, 0, 0.5); z-index: 10000; pointer-events: none;"></div><div style="position: absolute; width: 50px; height: 45.6667px; top: 0px; left: 0px; background-color: rgb(134, 45, 45); cursor: move;" tabindex="-1"></div><div style="position: absolute; width: 50px; height: 45.6667px; top: 45.6667px; left: 0px; background-color: rgb(45, 134, 45); cursor: move;" tabindex="-1"></div><div style="position: absolute; width: 50px; height: 45.6667px; top: 91.3333px; left: 0px; background-color: rgb(45, 45, 134); cursor: move;" tabindex="-1"></div></div></div><a style="position:absolute;cursor:pointer;top:5px;left:10px;" title="toggle playback"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none" class=""><use href="pz.icons10.svg#play"></use></svg></a><a style="position:absolute;cursor:pointer;top:5px;left:40px;" title="toggle render preview"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none" class="iconactive"><use href="pz.icons10.svg#preview"></use></svg></a><a style="position:absolute;cursor:pointer;top:5px;left:70px;" title="toggle audio mute"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none"><use href="pz.icons10.svg#mute"></use></svg></a><a style="position:absolute;cursor:pointer;top:5px;left:100px;" title="toggle half speed"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none"><use href="pz.icons10.svg#slow"></use></svg></a><a style="position:absolute;cursor:pointer;top:5px;left:130px;" title="toggle audio waveform"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none"><use href="pz.icons10.svg#wave"></use></svg></a><a style="position:absolute;cursor:pointer;bottom:10px;left:10px;" title="zoom out"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none"><use href="pz.icons10.svg#zoomout"></use></svg></a><a style="position:absolute;cursor:pointer;bottom:10px;left:40px;" title="zoom in"><svg style="fill:#ccc;width:25px;height:25px;pointer-events:none"><use href="pz.icons10.svg#zoomin"></use></svg></a><input class="pzinput pzinput-normal" style="position:absolute;top:40px;font-size:18px;" readonly=""><input class="pzinput pzinput-normal" style="position:absolute;top:40px;left:85px;font-size:18px;" readonly=""></div>
+        </div>
+    <div class="disabled noselect" style="display: none;"><span>loading...</span></div></div>
+
+    <script src="./clipmaker-2.0.181.js"></script>
+
+    <script>
+      initTool();
+
+      PZ.ui.ads.init();
+      PZ.ui.ads.show("Panzoid_tool_970x90_728x90_468x60_320x50_300x75");
+    </script>
+
+
+<img src="./px.gif" style="display: none !important; width: 1px !important; height: 1px !important;"><img src="./favicon.ico" style="display: none !important; width: 1px !important; height: 1px !important;"><img src="./px(2).gif" style="display: none !important; width: 1px !important; height: 1px !important;"><ul class="pz-dropdown" tabindex="-1" style="width: auto; top: 317.5px; left: 216px; display: none;"><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: 0px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -25px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -50px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -75px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -100px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -125px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -150px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -175px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -200px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -225px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -250px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -275px;"></span></li><li class="pz-active"><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -300px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -325px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -350px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -375px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -400px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -425px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -450px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -475px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -500px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -525px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -550px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -575px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -600px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -625px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -650px;"></span></li><li><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -675px;"></span></li><li class=""><span style="background-image: url(&quot;fonts.png&quot;); width: 200px; height: 25px; display: block; background-position-y: -700px;"></span></li></ul></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><iframe sandbox="allow-scripts allow-same-origin" id="888f39c2c9f47d9" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./sync.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="89f774b47ba8287" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./user_sync.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="9034c39c991dac6" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./user_sync(1).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="91123f75a310792" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./beacon.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="9210d36e6c5f285" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./pd.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="934980f096d9d45" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./beacon(1).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="9454da421b13e0b" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./pd(1).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="95aaaca36fec3eb" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./checksync.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="96d94c7c4e75c45" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./ixmatch.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="978f1b3ddf0cf1d" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./async_usersync.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="988c8b8cd26f844" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./user_sync(2).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="991bc3c230a6e5a" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./async_usersync(1).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="10069ad9dfdcb317" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./sync(1).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="101eeb7c739b343b" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./usync.html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="102a4f18447d73a6" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./ixmatch(1).html">
+    </iframe><iframe sandbox="allow-scripts allow-same-origin" id="103cf2eb70ad1a2f" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="./checksync(1).html">
+    </iframe></html>

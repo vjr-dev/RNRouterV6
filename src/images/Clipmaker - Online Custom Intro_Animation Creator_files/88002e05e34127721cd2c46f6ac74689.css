@@ -1,0 +1,130 @@
+:root
+{
+  --discussion-table-small-border: #ddd;
+}
+
+.dark-theme
+{
+  --discussion-table-small-border: #333;
+}
+
+.discussions
+{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td
+{
+  padding: 5px;
+  border-bottom: 1px solid var(--discussion-table-small-border);
+}
+
+td.num
+{
+  text-align: center;
+  color: var(--foreground-less);
+}
+
+a#clipmaker_tile
+{
+  background-image: url(40fc0a5c37488866f5f1328236b00fc8.jpg);
+  --animation-src: url(2de1fd5686037a32e3763c1fe1ff4dee.webp);
+}
+
+a#backgrounder_tile
+{
+  background-image: url(ea6b3ce44c68dc790941fe2acc1683c3.jpg);
+  --animation-src: url(46f67190da4c7361b8708265d2216003.webp);
+}
+
+a#videoeditor_tile
+{
+  background-image: url(abae30cfebbe66452f06adfadb815d05.jpg);
+  --animation-src: url(ff28a3622f59385611836294f26e0a7b.webp);
+}
+
+a.tooltile {
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+  color: #dee2e6 !important;
+  height: 140px;
+  width: 33.33%;
+  font-size: 23px;
+  box-sizing: border-box;
+  padding: 10px;
+  position: relative;
+  text-decoration: none;
+  text-shadow: #000 0px 0px 5px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+a.tooltile > i {
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: 0.5s ease 0s 1 fadeIn;
+  background-image: var(--animation-src);
+}
+
+a.tooltile > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(28, 30, 32, 1);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+a.tooltile:hover > div {
+  opacity: 0.6;
+}
+
+a.tooltile > .tooldesc {
+  font-size:16px;
+  /*color: rgb(173, 181, 189);*/
+  display: none;
+}
+
+a.tooltile:hover span {
+  display: block;
+}
+
+a.tooltile > span
+{
+  display: block;
+  position: relative;
+  pointer-events: none;
+}
+
+@media (max-width: 600px)
+{
+  a.tooltile {
+    width: 100%;
+  }
+
+  div.flex-responsive {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  div.maincolumns {
+    flex-direction: column-reverse;
+  }
+}

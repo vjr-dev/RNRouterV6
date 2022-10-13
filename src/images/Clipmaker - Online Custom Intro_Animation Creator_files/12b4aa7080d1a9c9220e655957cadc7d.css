@@ -1,0 +1,382 @@
+:root
+{
+  --spinner-fill: #444;
+  --search-svg-fill: #333;
+  --dropdown-background: #eee;
+  --dropdown-border: #d6d6d6;
+  --dropdown-active-item-background: #d4d4d4;
+  --dropdown-shadow: #000;
+  --section-tab-active: #f2f2f2;
+  --section-tab-underline: #444;
+
+  --button-foreground: #e9ecef;
+}
+
+.dark-theme
+{
+  --spinner-fill: #aaa;
+  --search-svg-fill: #bbb;
+  --dropdown-background: #333;
+  --dropdown-border: #555;
+  --dropdown-active-item-background: #444;
+  --dropdown-shadow: #000;
+  --section-tab-active: #333;
+  --section-tab-underline: #444;
+}
+
+body
+{
+  outline-color: var(--accent);
+}
+
+a
+{
+  color: var(--accent);
+  text-decoration: none;
+  transition: color .3s ease;
+}
+
+a.button
+{
+  color: var(--button-foreground);
+}
+
+a:hover
+{
+  color: var(--accent-light);
+}
+
+button
+{
+  padding: 0;
+  border: 0;
+  background: 0 0;
+  font: inherit;
+}
+
+div.container {
+    width: 100%;
+    min-height: 150px;
+    margin-bottom: 20px; /* filler for removal of footer */
+    position: absolute;
+    top: 50px;
+}
+
+div.footer {
+    text-align: center;
+    padding-top: 30px;
+    height: 70px;
+    color: var(--foreground-less);
+}
+
+    div.footer a {
+        color: var(--foreground-less);
+        padding: 3px;
+        margin-right: 2px;
+        text-decoration: none;
+    }
+
+        div.footer a:hover {
+            text-decoration: underline;
+        }
+
+div.columns {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+
+div.maincolumns {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  max-width: 1600px !important;
+}
+
+div.flex-responsive {
+  flex-direction: row;
+}
+
+div.loading {
+  width: 50px;
+  height: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin: auto;
+}
+
+div.loading > svg {
+  animation: spin 0.6s infinite linear;
+  fill: var(--spinner-fill);
+  width: 50px;
+  height: 50px;
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+
+
+/* main page, tools (tool items) */
+
+div.content-item {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 3px solid #dadada;
+    color: #1A1A1A;
+}
+
+    div.content-item img {
+        float: left;
+        margin-right: 10px;
+        width: 300px;
+        height: 169px;
+        border: none;
+    }
+
+    div.content-item a {
+        font-size: 20px;
+        color: rgb(27, 27, 27);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        div.content-item a:hover {
+            text-decoration: underline;
+        }
+
+/* main page */
+
+a.homeheading {
+  font-size: 18px;
+  margin: 15px 0;
+  color: var(--foreground);
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+}
+
+a.homeheading:hover {
+  text-decoration: underline;
+}
+
+div.toolbar
+{
+  width: 100%;
+  background-color: #272727;
+}
+
+div.toolbar > div {
+  display: flex;
+  justify-content: space-around;
+  width:100%;
+  max-width:1200px;
+  margin: auto;
+}
+
+div.content-right {
+    width: 500px;
+    margin-top: 15px;
+}
+
+div.content-left {
+    flex-direction:column;
+    width: 685px;
+    margin-top: 15px;
+}
+
+/* submit, contact, feedback */
+
+div.form {
+  max-width: 600px;
+}
+
+div.form span {
+  width: 175px;
+  display: inline-block;
+}
+
+div.form input, div.form textarea, div.form select {
+  border: 1px solid #ccc;
+  width: 300px;
+  padding: 5px;
+  vertical-align: middle;
+  margin-bottom: 3px;
+}
+
+.more {
+  margin: 10px auto 10px auto;
+  display: block;
+  text-decoration: none;
+  color: var(--accent)!important;
+  padding: 8px 0;
+  width: 200px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.more:hover {
+  text-decoration: underline;
+}
+
+.controls
+{
+  line-height: 40px;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.sections
+{
+  display: inline-block;
+}
+
+.sections a
+{
+  display: inline-block;
+  padding: 0 6px;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+  margin-right: 5px;
+  text-transform: capitalize;
+  border-bottom: 3px solid transparent;
+}
+
+.sections a > input
+{
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  width: 200px;
+  transition: width 0.25s ease;
+  margin: 0px;
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--foreground);
+}
+
+.sections a > input::placeholder
+{
+  color: inherit;
+  opacity: 1;
+}
+
+.sections a.active
+{
+  background-color: var(--section-tab-active);
+}
+
+.sections a:hover
+{
+  border-bottom: 3px solid var(--section-tab-underline);
+}
+
+.sections a.selected
+{
+  border-bottom: 3px solid var(--accent);
+  font-weight: bold;
+}
+
+.sections svg
+{
+  width: 16px;
+  fill: var(--search-svg-fill);
+  height: 16px;
+  vertical-align: middle;
+}
+
+.sections a > .section-count
+{
+  background-color: var(--accent);
+  color: var(--button-foreground);
+  border-radius: 10px;
+  padding: 0 5px;
+  margin-left: 5px;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.catlist
+{
+  list-style: none;
+  position: fixed;
+  background-color: var(--dropdown-background);
+  border: 1px solid var(--dropdown-border);
+  border-radius: 3px;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 0 5px var(--dropdown-shadow);
+}
+
+.catlist li
+{
+  padding: 5px;
+  cursor: default;
+  line-height: 20px;
+}
+
+.catlist li.active
+{
+  background-color: var(--dropdown-active-item-background);
+}
+
+.actiondd
+{
+  list-style: none;
+  position: fixed;
+  background-color: var(--dropdown-background);
+  border: 1px solid var(--dropdown-border);
+  margin: 0;
+  padding: 0;
+  max-width: 400px;
+  max-height: 60vh;
+  box-shadow: 0 0 5px var(--dropdown-shadow);
+  border-radius: 3px;
+}
+
+.actiondd li
+{
+  padding: 5px;
+  cursor: default;
+  line-height: 20px;
+}
+
+.actiondd li.active
+{
+  background-color: var(--dropdown-active-item-background);
+}
+
+span.category
+{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 3px;
+  vertical-align: inherit;
+  border-radius: 3px;
+}
+
+button.cat
+{
+  background-color: var(--dropdown-background);
+  border: 1px solid #ced4da;
+  padding: 0 10px;
+  display: inline-block;
+  color: #343a40;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+div.emptymessage
+{
+  line-height: 50px;
+  color: var(--foreground-less);
+}
