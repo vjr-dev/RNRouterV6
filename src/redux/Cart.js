@@ -13,7 +13,7 @@ import {
   
   const Cart = () => {
     const navigation = useNavigation();
-    const items = useSelector(state => state.Reducers);
+    const items = useSelector(state => state.Reducers.cart);
     console.log("Cartjs>>>", items);
     const dispatch = useDispatch();
     const removeItem = index => {

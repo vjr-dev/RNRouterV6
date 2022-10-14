@@ -1,16 +1,19 @@
-import {ADD_ITEM, CHANG_THEME, REMOVE_ITEM} from '../ActionTypes';
+import {GET_PRODUCT_DATA,ADD_ITEM, CHANG_THEME, REMOVE_ITEM} from '../ActionTypes';
 
-export const Reducers = (state = [], action) => {
+const initState = {
+  products:[],
+  cart:[]
+}
+
+export const Reducers = (state = initState, action) => {
   switch (action.type) {
+    case GET_PRODUCT_DATA:
+      return {...state, products: action.payload};
     case ADD_ITEM:
-      return [...state, action.payload];
-
-    case REMOVE_ITEM:
-      const deleteArray = state.filter((item, index) => {
-        return index !== action.payload;
-      });
-
-      return deleteArray;
+      console.log("state--->",action);
+      return {...state, cart:[...state.cart,action.payload]};
+      case REMOVE_ITEM:
+        return {...state, cart: state.cart.filter((item,index) => action.payload !== index)}
     default:
       return state;
   }
